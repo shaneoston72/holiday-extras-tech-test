@@ -40,7 +40,6 @@ var SimpleHTTPRequest = (function () {
         data = data.replace(/\\'/g, "'");
         data = JSON.parse(data);
         this.result = data.items;
-        console.log(this.result);
     };
     SimpleHTTPRequest = __decorate([
         core_1.Component({
