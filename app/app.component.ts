@@ -1,4 +1,4 @@
-import { Component } from '@angular2.core';
+import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
@@ -6,18 +6,20 @@ import { Observable } from 'rxjs/Rx';
   selector: 'he-app',
   template:`
     <div class="main-container">
-      <h1>Holiday Extras Tech Test</h1>
-      <p>submitted by Shane Oston Stowe</p>
+      <header>
+        <h1>Holiday Extras Tech Test</h1>
+        <p>submitted by Shane Oston Stowe</p>
+      </header>
       <div class="flex-container">
-        <div *ngFor="let flickrItem of flickrItems" [flickrItem]="flickrItem">
-          <img src="{{ flickrItem.imgUrl }}" alt="" className="flickr-photo"/>
+        <div *ngFor="let item of items" class="item-box">
+          <img src="{{ item.media.m }}" alt="{{ item.title }}" class="flickr-photo"/>
           <div class="flickr-details">
-            <h3 class="flickr-title">{{ flickrItem.photoTitle }}</h3>
+            <h3 class="flickr-title">{{ item.title }}</h3>
             <p>
               <span class="smallType">by </span>
-              <span class="flickr-author"> {{ flickrItem.photoAuthor }}</span></p>
-              <div class="flickr-description" [innerHTML]="flickrItem.photoDescription"></div>
-              <p class="flickr-tags">Tags: {{ flickrItem.photoTags }}</p>
+              <span class="flickr-author"> {{ item.author }}</span></p>
+              <div class="flickr-description" [innerHTML]="item.description"></div>
+              <p class="flickr-tags">Tags: {{ item.tags }}</p>
           </div>
         </div>
       </div>
@@ -25,9 +27,10 @@ import { Observable } from 'rxjs/Rx';
   `
 })
 export class AppComponent {
+  data: Object;
   public items;
 
-  constructor(private http: Http) { }
+  constructor(public http: Http) { }
 
   ngOnInit() {
     this.getItems();
@@ -36,8 +39,9 @@ export class AppComponent {
   getItems() {
     this.http.get('https://api.flickr.com/services/feeds/photos_public.gne?format=json')
       .subscribe((res: Response) => {
+        console.log(res._body);
         this.data = res._body;
-        this.result = this.transformRes(this.data);
+        this.items = this.transformRes(this.data);
       });
   }
 
