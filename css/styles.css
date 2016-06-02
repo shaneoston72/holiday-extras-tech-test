@@ -1,9 +1,9 @@
 * {
   box-sizing: border-box;
-  font-family: 'Raleway', sans-serif;
 }
  body {
    padding: 25px;
+   font-family: 'Raleway', sans-serif;
  }
 
 .main-container {
@@ -119,7 +119,24 @@ h3.flickr-title {
   }
 
   .item-box {
-    max-width: 250px;
-    height: 350px;
+    min-width: 200px;
+  }
+
+  h3.flickr-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .smallType {
+    font-size: 11px;
+  }
+
+  .flickr-author {
+    font-size: 11px;
+  }
+
+  .flickr-description, .flickr-tags {
+    font-size: 11px;
+    padding: 10px 0 0;
   }
 }

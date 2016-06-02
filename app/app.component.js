@@ -11,34 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var AppComponent = (function () {
-    function AppComponent(http) {
-        this.http = http;
+    function AppComponent(jsonp) {
+        this.jsonp = jsonp;
     }
     AppComponent.prototype.ngOnInit = function () {
         this.getItems();
     };
     AppComponent.prototype.getItems = function () {
         var _this = this;
-        this.http.get('https://api.flickr.com/services/feeds/photos_public.gne?format=json')
-            .subscribe(function (res) {
-            console.log(res);
-            _this.data = res._body;
-            _this.items = _this.transformRes(_this.data);
-        });
-    };
-    AppComponent.prototype.transformRes = function (data) {
-        data = data.replace('jsonFlickrFeed(', '');
-        data = data.replace('})', '}');
-        data = data.replace(/\\'/g, "'");
-        data = JSON.parse(data);
-        return data.items;
+        this.jsonp.get('http://api.flickr.com/services/feeds/photos_public.gne?tags=cat&tagmode=any&format=json&jsoncallback=JSONP_CALLBACK')
+            .map(function (res) { return res.json(); })
+            .subscribe(function (data) { return _this.items = data.items; });
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'he-app',
-            template: "\n    <div class=\"main-container\">\n      <header>\n        <h1>Holiday Extras Tech Test</h1>\n        <p>submitted by Shane Oston Stowe</p>\n      </header>\n      <div class=\"flex-container\">\n        <div *ngFor=\"let item of items\" class=\"item-box\">\n          <img src=\"{{ item.media.m }}\" alt=\"{{ item.title }}\" class=\"flickr-photo\"/>\n          <div class=\"flickr-details\">\n            <h3 class=\"flickr-title\">{{ item.title }}</h3>\n            <p>\n              <span class=\"smallType\">by </span>\n              <span class=\"flickr-author\"> {{ item.author }}</span></p>\n              <div class=\"flickr-description\" [innerHTML]=\"item.description\"></div>\n              <p class=\"flickr-tags\">Tags: {{ item.tags }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n  "
+            template: "\n    <div class=\"main-container\">\n      <div class=\"flex-container\">\n        <div *ngFor=\"let item of items\" class=\"item-box\">\n          <img src=\"{{ item.media.m }}\" alt=\"{{ item.title }}\" class=\"flickr-photo\"/>\n          <div class=\"flickr-details\">\n            <h3 class=\"flickr-title\">{{ item.title }}</h3>\n            <p>\n              <span class=\"smallType\">by </span>\n              <span class=\"flickr-author\"> {{ item.author }}</span></p>\n              <div class=\"flickr-description\" [innerHTML]=\"item.description\"></div>\n              <p class=\"flickr-tags\">Tags: {{ item.tags }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n  "
         }), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Jsonp])
     ], AppComponent);
     return AppComponent;
 }());
