@@ -39,7 +39,7 @@ export class AppComponent {
   getItems() {
     this.http.get('https://api.flickr.com/services/feeds/photos_public.gne?format=json')
       .subscribe((res: Response) => {
-        console.log(res._body);
+        console.log(res);
         this.data = res._body;
         this.items = this.transformRes(this.data);
       });

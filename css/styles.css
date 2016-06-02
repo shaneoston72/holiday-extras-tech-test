@@ -117,4 +117,9 @@ h3.flickr-title {
   header {
     margin-bottom:  25px;
   }
+
+  .item-box {
+    max-width: 250px;
+    height: 350px;
+  }
 }

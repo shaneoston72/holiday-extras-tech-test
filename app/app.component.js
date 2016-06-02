@@ -21,7 +21,7 @@ var AppComponent = (function () {
         var _this = this;
         this.http.get('https://api.flickr.com/services/feeds/photos_public.gne?format=json')
             .subscribe(function (res) {
-            console.log(res._body);
+            console.log(res);
             _this.data = res._body;
             _this.items = _this.transformRes(_this.data);
         });
